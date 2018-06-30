@@ -1,0 +1,40 @@
+{
+  "name": "aws-signed-api",
+  "engines": {
+    "node": ">=6.9.5"
+  },
+  "version": "1.0.0",
+  "description": "sign api request for IAM authorization for mos services",
+  "main": "index.js",
+  "repository": "Askmos/aws-signed-api",
+  "keywords": [
+    "aws",
+    "mos",
+    "iam",
+    "api",
+    "authorization"
+  ],
+  "author": "David Zhang",
+  "scripts": {
+    "test": "mocha 'test/**/*.js'",
+    "eslint": "eslint .js ./"
+  },
+  "dependencies": {
+    "aws4": "^1.7.0",
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-import": "^2.13.0",
+    "mocha": "^5.2.0",
+    "nock": "^9.4.0"
+  },
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/Askmos/aws-signed-api/issues"
+  },
+  "homepage": "https://github.com/Askmos/aws-signed-api"
+}
