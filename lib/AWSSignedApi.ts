@@ -10,8 +10,12 @@ const getDefaultRequest = (service?: string, region?: string): Request => {
   return defaultRequest;
 };
 
-const getDefaultCredentials = (credentials: Credentials): Credentials | null => {
-  if (credentials.accessKeyId && credentials.secretAccessKey) return credentials;
+// By default, requests are signed by the AWS SDK by using env variables.
+// accessKeyId: env.AWS_ACCESS_KEY_ID || env.AWS_ACCESS_KEY
+// secretAccessKey: env.AWS_SECRET_ACCESS_KEY || env.AWS_SECRET_KEY
+// sessionToken: env.AWS_SESSION_TOKEN
+const getDefaultCredentials = (credentials?: Credentials): Credentials | null => {
+  if (credentials && credentials.accessKeyId && credentials.secretAccessKey) return credentials;
   return null;
 };
 
@@ -22,7 +26,7 @@ export class AWSSignedApi {
 
   constructor(
     baseURL: string,
-    credentials: Credentials,
+    credentials?: Credentials,
     region?: string,
     service?: string
   ) {

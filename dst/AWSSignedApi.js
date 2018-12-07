@@ -11,25 +11,28 @@ var getDefaultRequest = function (service, region) {
         defaultRequest.region = region;
     return defaultRequest;
 };
+// By default, requests are signed by the AWS SDK by using env variables.
+// accessKeyId: env.AWS_ACCESS_KEY_ID || env.AWS_ACCESS_KEY
+// secretAccessKey: env.AWS_SECRET_ACCESS_KEY || env.AWS_SECRET_KEY
+// sessionToken: env.AWS_SESSION_TOKEN
 var getDefaultCredentials = function (credentials) {
-    if (credentials.accessKeyId && credentials.secretAccessKey)
+    if (credentials && credentials.accessKeyId && credentials.secretAccessKey)
         return credentials;
     return null;
 };
 var AWSSignedApi = /** @class */ (function () {
     function AWSSignedApi(baseURL, credentials, region, service) {
         this.baseURL = baseURL;
-        var defaultRequest = getDefaultRequest(service, region);
         var defaultCredentials = getDefaultCredentials(credentials);
         var api = axios_1.default.create({ baseURL: baseURL });
         // before a request is sent, we edit the header to sign the request
         api.interceptors.request.use(function (config) {
             var url = url_1.parse("" + config.baseURL + config.url);
             var method = config.method ? config.method : '';
-            var request = Object.assign(defaultRequest, {
+            var request = Object.assign(getDefaultRequest(service, region), {
                 method: method.toUpperCase(),
-                host: url.hostname,
-                path: url.pathname,
+                host: url.host,
+                path: url.path,
             });
             var headers = {};
             if (config.data) {
