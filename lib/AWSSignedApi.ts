@@ -27,17 +27,17 @@ export class AWSSignedApi {
     service?: string
   ) {
     this.baseURL = baseURL;
-    const defaultRequest = getDefaultRequest(service, region);
     const defaultCredentials = getDefaultCredentials(credentials);
     const api = axios.create({ baseURL });
     // before a request is sent, we edit the header to sign the request
     api.interceptors.request.use((config) => {
       const url = parse(`${config.baseURL}${config.url}`);
       const method = config.method ? config.method : '';
-      const request = Object.assign(defaultRequest, {
+    
+      const request = Object.assign(getDefaultRequest(service, region), {
         method: method.toUpperCase(),
-        host: url.hostname,
-        path: url.pathname,
+        host: url.host,
+        path: url.path,
       });
       const headers: Record<string, string> = {};
       if (config.data) {
